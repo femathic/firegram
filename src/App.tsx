@@ -1,6 +1,6 @@
-import React from "react";
-import UploadForm from "./components/UploadForm";
-import ImageGrid from "./components/ImageGrid";
+import React from 'react';
+import UploadForm from './components/UploadForm';
+import ImageGrid from './components/ImageGrid';
 
 const App = (): JSX.Element => (
   <div>

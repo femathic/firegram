@@ -11,3 +11,4 @@ const Modal = ({ selectedImage }: { selectedImage: ImageInterface | null }) => {
 
 export default Modal;
 
+

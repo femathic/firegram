@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { projectFirestore } from '../firebase/config';
 
 const useFirestore = (collection) => {
-  const [docs, setDocs] = useState(0);
+  const [docs, setDocs] = useState([]);
 
   useEffect(() => {
     const unsubscribe = projectFirestore.collection(collection)

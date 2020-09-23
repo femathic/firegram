@@ -1,33 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import useStorage from '../hooks/useStorage';
 
-const ProgressBar = (props: any):JSX.Element => {
-  const { file, setFile } = props;
+const ProgressBar = ({ file, setFile }: { file: object, setFile: Function }) => {
   const { url, progress } = useStorage(file);
 
   useEffect(() => {
     if (url) setFile(null);
   }, [url, setFile]);
+
   return (
-    <div className="shadow w-full bg-grey-light rounded-lg h-2">
+    <div className="shadow w-1/2 mx-auto bg-grey-light rounded h-1">
       <div
-        className="py-1 rounded-lg bg-red-500 h-2"
+        className="rounded-lg bg-red-300 h-1"
         style={{ width: `${progress}%` }}
       />
     </div>
   );
 };
 
-const UploadForm = ():JSX.Element => {
-  const [file, setFile] = useState(null);
-  const [error, setError] = useState('');
+const UploadForm = () => {
+  const [file, setFile] = useState<object | null>(null);
+  const [error, setError] = useState<string | null>(null);
   const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
-  const chooseImage = (e:any) => {
-    const selected = e.target.files[0];
+  const chooseImage = (e: React.SyntheticEvent<EventTarget>): void => {
+    const selected = (e.target as HTMLFormElement).files[0];
     if (selected && allowedImageTypes.includes(selected.type)) {
       setFile(selected);
-      setError('');
+      setError(null);
     } else {
       setError('Please select a valid image file (png or jpeg)');
       setFile(null);

@@ -5,7 +5,10 @@
     },
     "extends": [
         "plugin:react/recommended",
-        "airbnb"
+        "airbnb",
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -31,6 +34,18 @@
                 ]
             }
         ],
-        "linebreak-style": 0
+        "import/extensions": [
+            "error",
+            "ignorePackages",
+            {
+                "js": "never",
+                "jsx": "never",
+                "ts": "never",
+                "tsx": "never"
+            }
+        ],
+        "linebreak-style": 0,
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": "off"
     }
 }

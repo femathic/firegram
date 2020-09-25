@@ -1,22 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import useStorage from '../hooks/useStorage';
-
-const ProgressBar = ({ file, setFile }: { file: object, setFile: Function }) => {
-  const { url, progress } = useStorage(file);
-
-  useEffect(() => {
-    if (url) setFile(null);
-  }, [url, setFile]);
-
-  return (
-    <div className="shadow w-1/2 mx-auto bg-grey-light rounded h-1">
-      <div
-        className="rounded-lg bg-red-300 h-1"
-        style={{ width: `${progress}%` }}
-      />
-    </div>
-  );
-};
+import React, { useState } from 'react';
+// import ProgressBar from './progressBar';
+import ImageCrop from './imageCrop';
 
 const UploadForm = () => {
   const [file, setFile] = useState<object | null>(null);
@@ -24,7 +8,7 @@ const UploadForm = () => {
   const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
 
   const chooseImage = (e: React.SyntheticEvent<EventTarget>): void => {
-    const selected = (e.target as HTMLFormElement).files[0];
+    const selected: any = (e.target as HTMLFormElement).files[0];
     if (selected && allowedImageTypes.includes(selected.type)) {
       setFile(selected);
       setError(null);
@@ -43,8 +27,10 @@ const UploadForm = () => {
         </label>
       </div>
       <div>
-        {error && <p className="error">{error}</p>}
-        {file && <ProgressBar file={file} setFile={setFile} />}
+        {error && <p className="text-center text-xs text-red-200">{error}</p>}
+        {/* {file && <ProgressBar file={file} setFile={setFile} />} */}
+        {file && <ImageCrop file={file} setFile={setFile} />}
+        {/* <ImageCrop file={{}} setFile={setFile} /> */}
       </div>
     </form>
   );

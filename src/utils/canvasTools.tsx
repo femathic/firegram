@@ -72,14 +72,14 @@ export function ImageFileToBase64(file) {
 
 // Get cropped image
 export const getCroppedImg = (image, crop, fileName) => {
-  const canvas = document.createElement("canvas");
+  const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
   canvas.width = crop.width;
   canvas.height = crop.height;
-  const ctx = canvas.getContext("2d");
+  const ctx = canvas.getContext('2d');
 
-  if (ctx)
+  if (ctx) {
     ctx.drawImage(
       image,
       crop.x * scaleX,
@@ -89,17 +89,18 @@ export const getCroppedImg = (image, crop, fileName) => {
       0,
       0,
       crop.width,
-      crop.height
+      crop.height,
     );
+  }
 
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob: any) => {
       if (!blob) {
-        reject(new Error("Canvas is empty"));
+        reject(new Error('Canvas is empty'));
         return;
       }
       blob.name = fileName;
       resolve(window.URL.createObjectURL(blob));
-    }, "image/jpeg");
+    }, 'image/jpeg');
   });
 };

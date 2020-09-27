@@ -1,18 +1,46 @@
 import React from 'react';
+import { motion } from 'framer-motion';
+import swal from '@sweetalert/with-react';
 import useFirestore from '../hooks/useFirestore';
 import { ImageInterface } from '../utils/interface';
 
-const ImageGrid = ({ setSelectedImage }: { setSelectedImage : Function }) => {
+const ImageGrid = () => {
   const { docs }: { docs: ImageInterface[] } = useFirestore('images');
+
+  const showImage = (image: ImageInterface) => {
+    swal({
+      content: (
+        <motion.img
+          src={image.url}
+          alt={image.name}
+          className="min-w-full min-h-full shadow-lg rounded"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.5 }}
+        />
+      ),
+      buttons: false,
+    });
+  };
+
   return (
-    <div className="flex flex-wrap max-w-screen-lg my-8 mx-auto rounded-lg">
+    <div className="max-w-screen-lg mx-4 my-8 lg:mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {docs ? (
         docs.map((image) => (
-          <div key={image.id} className="w-full md:w-1/2 lg:w-1/3 h-full p-6 pb-64 hover:opacity-75 overflow-hidden relative">
-            <button type="button" onClick={(): void => setSelectedImage(image)}>
-              <img className="min-w-full min-h-full absolute top-0 left-0 m-8" src={image.url} alt={image.name} />
-            </button>
-          </div>
+          <motion.button
+            key={image.id}
+            type="button"
+            layout
+            onClick={(): void => showImage(image)}
+            style={{ opacity: 0.95 }}
+            className="focus:outline-none"
+            whileHover={{ scale: 1.1, opacity: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.95 }}
+            // transition={{ delay: 1 }}
+          >
+            <img src={image.url} alt={image.name} className="min-w-full min-h-full shadow-lg rounded" />
+          </motion.button>
         ))
       ) : (
         <p className="w-full text-center text-red-200 font-medium text-sm">

@@ -1,18 +1,21 @@
 import React, { useEffect } from 'react';
+import { motion } from 'framer-motion';
 import useStorage from '../hooks/useStorage';
 
-const ProgressBar = ({ file, setFile }: { file: object, setFile: Function }) => {
-  const { url, progress }: { url: null | string, progress: number } = useStorage(file);
+const ProgressBar = (props: any) => {
+  const { croppedFile, setCroppedFile }: { croppedFile: object, setCroppedFile: Function } = props;
+  const { url, progress }: { url: null | string, progress: number } = useStorage(croppedFile);
 
   useEffect(() => {
-    if (url) setFile(null);
-  }, [url, setFile]);
+    if (url) setCroppedFile(null);
+  }, [url, setCroppedFile]);
 
   return (
     <div className="shadow w-1/2 mx-auto bg-grey-light rounded h-1">
-      <div
+      <motion.div
         className="rounded-lg bg-red-300 h-1"
-        style={{ width: `${progress}%` }}
+        initial={{ width: 0 }}
+        animate={{ width: `${progress}%` }}
       />
     </div>
   );

@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
-// import ProgressBar from './progressBar';
+import React, { useState, useEffect } from 'react';
+import swal from '@sweetalert/with-react';
+import ProgressBar from './progressBar';
 import ImageCrop from './imageCrop';
 
 const UploadForm = () => {
   const [file, setFile] = useState<object | null>(null);
+  const [croppedFile, setCroppedFile] = useState<object | null>(null);
   const [error, setError] = useState<string | null>(null);
+  const [imageInputKey, setImageInputKey] = useState<number>(0);
   const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+
+  useEffect(() => {
+    const closeCrop = () => {
+      swal.close();
+      setFile(null);
+      setImageInputKey(imageInputKey + 1);
+    };
+
+    if (file) {
+      swal({
+        content: (<ImageCrop file={file} setCroppedFile={setCroppedFile} closeCrop={closeCrop} />),
+        buttons: false,
+        closeOnClickOutside: false,
+      });
+    }
+    return () => setFile(null);
+  }, [file, imageInputKey]);
 
   const chooseImage = (e: React.SyntheticEvent<EventTarget>): void => {
     const selected: any = (e.target as HTMLFormElement).files[0];
@@ -23,14 +43,12 @@ const UploadForm = () => {
       <div className="flex justify-center">
         <label htmlFor="upload" className="inline cursor-pointer">
           <i className="fas fa-plus-circle text-red-500 fa-lg my-3" />
-          <input id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" />
+          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" />
         </label>
       </div>
       <div>
         {error && <p className="text-center text-xs text-red-200">{error}</p>}
-        {/* {file && <ProgressBar file={file} setFile={setFile} />} */}
-        {file && <ImageCrop file={file} setFile={setFile} />}
-        {/* <ImageCrop file={{}} setFile={setFile} /> */}
+        {croppedFile && <ProgressBar croppedFile={croppedFile} setCroppedFile={setCroppedFile} />}
       </div>
     </form>
   );

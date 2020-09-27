@@ -1,110 +1,16 @@
-// import React, { useState, useEffect, createRef } from 'react';
-// import ReactCrop from 'react-image-crop';
-// import 'react-image-crop/dist/ReactCrop.css';
-// import {
-//   base64StringToFile,
-//   downloadBase64File,
-//   extractImageFileExtensionFromBase64,
-//   image64ToCanvasRef,
-//   ImageFileToBase64,
-//   getCroppedImg,
-// } from '../utils/canvasTools';
-
-// const ImageCrop = ({ file, setFile }: { file: object, setFile: Function }) => {
-//   const [crop, setCrop] = useState({ aspect: 1 / 1 });
-//   const [imageString, setImageString] = useState(null);
-//   const [cropString, setCropString] = useState('');
-//   const [croppedAvailable, setCroppedAvailable] = useState(false);
-//   const imageCanvasRef: any = createRef();
-
-//   useEffect(() => {
-//     if (file) {
-//       ImageFileToBase64(file).then((result: any) => setImageString(result));
-//     } else {
-//       setImageString(null);
-//     }
-//     return () => setImageString(null);
-//   }, [file]);
-
-//   const handleChangeCrop = (newCrop) => {
-//     setCrop(newCrop);
-//     if (newCrop.width) {
-//       setCroppedAvailable(true);
-//     } else {
-//       setCroppedAvailable(false);
-//     }
-//     console.log('crop', newCrop);
-//   };
-
-//   const handleCropComplete = (newCrop, cropPixel) => {
-//     console.log('pixel crop', cropPixel);
-//     const canvasRef = imageCanvasRef.current;
-//     image64ToCanvasRef(canvasRef, imageString, cropPixel);
-//     getCroppedImg(file, crop, 'newFile.jpeg').then((img: any) => setCropString(img));
-//   };
-
-//   const uploadCroppedImage = () => {
-//     const canvasRef = imageCanvasRef.current;
-//     const fileExtension = extractImageFileExtensionFromBase64(imageString);
-//     const fileName = `previewFile.${fileExtension}`;
-//     const croppedImageData64 = canvasRef.toDataURL(`image/${fileExtension}`);
-//     // file to upload
-//     const newCroppedFile = base64StringToFile(croppedImageData64, fileName);
-//     console.log(newCroppedFile);
-//     // file to download
-//     downloadBase64File(croppedImageData64, fileName);
-//   };
-
-//   return (
-//     <div className="fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center" style={{ background: 'rgba(0,0,0,.7)' }}>
-//       <div className="border border-red-100 shadow-lg modal-container bg-white w-11/12 md:max-w-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
-//         <div className="py-4 text-left px-6">
-//           <div className="flex justify-between items-center pb-3">
-//             <p className="text-2xl font-bold">Crop your image</p>
-//             <button type="button" className="cursor-pointer focus:outline-none z-50" onClick={() => setFile(null)}>
-//               <i className="fas fa-times" />
-//             </button>
-//           </div>
-//           <div className="m-0 md:m-8 h-full h-10/12 lg:h-1/2">
-//             <ReactCrop
-//               src={imageString}
-//               crop={crop}
-//               onComplete={handleCropComplete}
-//               onChange={handleChangeCrop}
-//             />
-//             {cropString && (
-//               <img alt="Crop" style={{ maxWidth: '100%' }} src={cropString} />
-//             )}
-//             <canvas ref={imageCanvasRef}> </canvas>
-//           </div>
-//           <div className="flex justify-center pt-2">
-//             {croppedAvailable
-//               && (
-//               <button type="button" onClick={uploadCroppedImage} className="focus:outline-none shadow text-white px-4 bg-red-500 p-3 rounded hover:bg-red-400">
-//                 Upload Image
-//               </button>
-//               )}
-//           </div>
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
 import React, { useState, useEffect } from 'react';
 import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
-import { getCroppedImg } from '../utils/canvasTools';
+import { getCroppedImg, base64StringToFile, imageBlobToBase64 } from '../utils/canvasTools';
 
-const ImageCrop = ({ file, setFile }: { file: any, setFile: Function }) => {
-  const [src, setSrc] = useState(null);
+const ImageCrop = (props: any) => {
+  const { file, setCroppedFile, closeCrop }
+    : { file: any, setCroppedFile: Function, closeCrop: Function } = props;
+
+  const [src, setSrc] = useState('');
   const [imageRef, setImageRef] = useState(null);
-  const [cropDetails, setCropDetails] = useState({
-    unit: '%',
-    width: 30,
-    aspect: 1 / 1,
-  });
   const [croppedImageUrl, setCroppedImageUrl] = useState('');
+  const [cropDetails, setCropDetails] = useState({ unit: '%', width: 30, aspect: 1 / 1 });
 
   useEffect(() => {
     if (file) {
@@ -112,9 +18,9 @@ const ImageCrop = ({ file, setFile }: { file: any, setFile: Function }) => {
       reader.addEventListener('load', () => setSrc(reader.result));
       reader.readAsDataURL(file);
     } else {
-      setSrc(null);
+      setSrc('');
     }
-    return () => setSrc(null);
+    return () => setSrc('');
   }, [file]);
 
   const onImageLoaded = (image) => {
@@ -132,43 +38,47 @@ const ImageCrop = ({ file, setFile }: { file: any, setFile: Function }) => {
     setCropDetails(crop);
   };
 
-  const uploadCroppedImage = () => { };
+  const getCroppedImageFile = async () => {
+    const croppedImageBase64 = await imageBlobToBase64(croppedImageUrl);
+    // file to upload
+    const croppedImageFile = base64StringToFile(croppedImageBase64, `${Date.now()}.jpg`);
+    setCroppedFile(croppedImageFile);
+    closeCrop();
+    // file to download
+    // downloadBase64File(croppedImageBase64, `${Date.now()}.jpg`);
+  };
 
   return (
-    <div className="fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center" style={{ background: 'rgba(0,0,0,.7)' }}>
-      <div className="border border-red-100 shadow-lg modal-container bg-white w-11/12 md:max-w-lg mx-auto rounded shadow-lg z-50 overflow-y-auto">
-        <div className="py-4 text-left px-6">
-          <div className="flex justify-between items-center pb-3">
-            <p className="text-2xl font-bold">Crop your image</p>
-            <button type="button" className="cursor-pointer focus:outline-none z-50" onClick={() => setFile(null)}>
-              <i className="fas fa-times" />
+    <div className="py-4 text-left px-4">
+      <div className="flex justify-between items-center pb-3">
+        <p className="text-lg text-center font-medium text-red-400 border-b-2 border-gray-300">Crop your image</p>
+        <button type="button" className="cursor-pointer focus:outline-none z-50" onClick={() => closeCrop()}>
+          <i className="fas fa-times" />
+        </button>
+      </div>
+      <div className="flex justify-center m-0 md:m-8 h-10/12 lg:h-5/12">
+        {src && (
+        <ReactCrop
+          src={src}
+          crop={cropDetails}
+          ruleOfThirds
+          onImageLoaded={onImageLoaded}
+          onComplete={onCropComplete}
+          onChange={onCropChange}
+        />
+        )}
+        {croppedImageUrl && (
+        <img alt="Crop" className="mw-100 hidden" src={window.URL.createObjectURL(croppedImageUrl)} />
+        )}
+      </div>
+      <div className="flex justify-center text-white pt-2">
+        {(imageRef && cropDetails.width)
+          ? (
+            <button type="button" onClick={getCroppedImageFile} className="focus:outline-none shadow px-3 bg-red-500 py-2 text-sm rounded hover:bg-red-400">
+              Upload Image
             </button>
-          </div>
-          <div className="m-0 md:m-8 h-full h-10/12 lg:h-1/2">
-            {src && (
-              <ReactCrop
-                src={src}
-                crop={cropDetails}
-                ruleOfThirds
-                onImageLoaded={onImageLoaded}
-                onComplete={onCropComplete}
-                onChange={onCropChange}
-              />
-            )}
-            {croppedImageUrl && (
-              <img alt="Crop" className="mw-100 hidden" src={croppedImageUrl} />
-            )}
-          </div>
-          <div className="flex justify-center pt-2">
-            {(imageRef && cropDetails.width)
-              ? (
-                <button type="button" onClick={uploadCroppedImage} className="focus:outline-none shadow text-white px-4 bg-red-500 p-3 rounded hover:bg-red-400">
-                  Upload Image
-                </button>
-              )
-              : null}
-          </div>
-        </div>
+          )
+          : null}
       </div>
     </div>
   );

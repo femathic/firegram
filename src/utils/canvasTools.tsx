@@ -55,13 +55,13 @@ export function image64ToCanvasRef(canvasRef, image64, pixelCrop) {
 }
 
 // Image file to url
-export function ImageFileToUrl(file) {
+export function imageFileToBlob(file) {
   const url = URL.createObjectURL(file);
   return url;
 }
 
 // Image file to url
-export function ImageFileToBase64(file) {
+export function imageFileToBase64(file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.readAsDataURL(file);
@@ -70,13 +70,76 @@ export function ImageFileToBase64(file) {
   });
 }
 
+// Image blob to  base64
+export function imageBlobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(blob);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
+}
+
 // Get cropped image
+// export const getCroppedImg = (image, crop, fileName) => {
+//   console.log(image)
+//   const canvas = document.createElement('canvas');
+//   const scaleX = image.naturalWidth / image.width;
+//   const scaleY = image.naturalHeight / image.height;
+//   canvas.width = crop.width;
+//   canvas.height = crop.height;
+//   const ctx = canvas.getContext('2d');
+
+//   if (ctx) {
+//     ctx.drawImage(
+//       image,
+//       crop.x * scaleX,
+//       crop.y * scaleY,
+//       crop.width * scaleX,
+//       crop.height * scaleY,
+//       0,
+//       0,
+//       crop.width,
+//       crop.height,
+//     );
+//   }
+
+//   return new Promise((resolve, reject) => {
+//     canvas.toBlob((blob: any) => {
+//       if (!blob) {
+//         reject(new Error('Canvas is empty'));
+//         return;
+//       }
+//       blob.name = fileName;
+//       // resolve(window.URL.createObjectURL(blob));
+//       resolve(blob);
+//     }, 'image/jpeg', 1);
+//   });
+// };
+
 export const getCroppedImg = (image, crop, fileName) => {
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
+  const originWidth = crop.width * scaleX;
+  const originHeight = crop.height * scaleY;
+  // maximum width/height
+  const maxWidth = 1200; const
+    maxHeight = 1200 / (16 / 9);
+  let targetWidth = originWidth;
+  let targetHeight = originHeight;
+  if (originWidth > maxWidth || originHeight > maxHeight) {
+    if (originWidth / originHeight > maxWidth / maxHeight) {
+      targetWidth = maxWidth;
+      targetHeight = Math.round(maxWidth * (originHeight / originWidth));
+    } else {
+      targetHeight = maxHeight;
+      targetWidth = Math.round(maxHeight * (originWidth / originHeight));
+    }
+  }
+  // set canvas size
+  canvas.width = targetWidth;
+  canvas.height = targetHeight;
   const ctx = canvas.getContext('2d');
 
   if (ctx) {
@@ -88,19 +151,25 @@ export const getCroppedImg = (image, crop, fileName) => {
       crop.height * scaleY,
       0,
       0,
-      crop.width,
-      crop.height,
+      targetWidth,
+      targetHeight,
     );
   }
 
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob: any) => {
-      if (!blob) {
-        reject(new Error('Canvas is empty'));
-        return;
-      }
-      blob.name = fileName;
-      resolve(window.URL.createObjectURL(blob));
-    }, 'image/jpeg');
+    canvas.toBlob(
+      (blob: any) => {
+        if (!blob) {
+          reject(new Error('Canvas is empty'));
+          return;
+        }
+        blob.name = fileName;
+        // window.URL.revokeObjectURL(this.fileUrl);
+        // this.fileUrl = window.URL.createObjectURL(blob);
+        resolve(blob);
+      },
+      'image/png',
+      1,
+    );
   });
 };

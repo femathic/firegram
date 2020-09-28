@@ -1,0 +1,46 @@
+/* index css  */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  position:relative;
+  padding: 0;
+  margin: 0;
+  font-family: 'Montserrat', Roboto, Helvetica, Arial, sans-serif;
+}
+.theme-background {
+  background: linear-gradient(90.6deg, #FF6A00 0.42%, #EE0979 99.69%);
+}
+.theme-border {
+  border: 2.5px solid #FB5C00;
+}
+.theme-text {
+  color: #FB5C00;
+}
+.theme-text-alt {
+  color: #EE0979 ;
+}
+.active-nav {
+  border-left-width: 4px;
+  border-color: #FB5C00;
+}
+.active-nav-sm {
+  border-bottom-width: 4px;
+  border-color: #FB5C00;
+}
+.loader {
+  border-top-color: #FB5C00;
+  -webkit-animation: spinner 1.5s linear infinite;
+  animation: spinner 1.5s linear infinite;
+}
+
+@-webkit-keyframes spinner {
+  0% { -webkit-transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spinner {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

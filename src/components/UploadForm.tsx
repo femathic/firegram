@@ -43,7 +43,7 @@ const UploadForm = () => {
       <div className="flex justify-center">
         <label htmlFor="upload" className="inline cursor-pointer">
           <i className="fas fa-plus-circle text-red-500 fa-lg my-3" />
-          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" />
+          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" aria-hidden="true" />
         </label>
       </div>
       <div>

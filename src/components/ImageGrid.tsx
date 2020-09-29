@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import swal from '@sweetalert/with-react';
 import useFirestore from '../hooks/useFirestore';
@@ -6,6 +6,14 @@ import { ImageInterface } from '../utils/interface';
 
 const ImageGrid = () => {
   const { docs }: { docs: ImageInterface[] } = useFirestore('images');
+  const [scroll, setScroll] = useState({ x: 0, y: 0 });
+  window.addEventListener(
+    'scroll',
+    () => {
+      setScroll({ ...scroll, x: window.scrollX, y: window.scrollY });
+    },
+    false,
+  );
 
   const showImage = (image: ImageInterface) => {
     swal({
@@ -39,7 +47,7 @@ const ImageGrid = () => {
             animate={{ opacity: 0.95 }}
             // transition={{ delay: 1 }}
           >
-            <img src={image.url} alt={image.name} className="min-w-full min-h-full shadow-lg rounded" />
+            <img src={image.url} alt={image.name} className="min-w-full min-h-full shadow-lg rounded" loading="lazy" />
           </motion.button>
         ))
       ) : (

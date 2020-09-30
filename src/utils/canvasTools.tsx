@@ -124,8 +124,8 @@ export const getCroppedImg = (image, crop, fileName) => {
   const originWidth = crop.width * scaleX;
   const originHeight = crop.height * scaleY;
   // maximum width/height
-  const maxWidth = 1200;
-  const maxHeight = 1200 / (16 / 9);
+  const maxWidth = 600;
+  const maxHeight = 600 / (16 / 9);
   let targetWidth = originWidth;
   let targetHeight = originHeight;
   if (originWidth > maxWidth || originHeight > maxHeight) {

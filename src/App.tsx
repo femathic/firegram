@@ -12,3 +12,11 @@ const App = () => (
 );
 
 export default App;
+
+// window.addEventListener(
+//   'scroll',
+//   () => {
+//     setScroll({ ...scroll, x: window.scrollX, y: window.scrollY });
+//   },
+//   false,
+// );

@@ -24,7 +24,7 @@ const ImageGrid = () => {
   };
 
   return (
-    <div className="max-w-screen-lg mx-4 my-8 lg:mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    <div className="max-w-screen-lg mx-4 pt-8 pb-12 lg:mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
       {docs ? (
         docs.map((image) => (
           <motion.button
@@ -33,13 +33,13 @@ const ImageGrid = () => {
             layout
             onClick={(): void => showImage(image)}
             style={{ opacity: 0.95 }}
-            className="focus:outline-none py-2 md:py-0 px-5 sm:px-2 md:px-0"
+            className="focus:outline-none py-2 md:py-0 px-5 sm:px-2 md:px-1"
             whileHover={{ scale: 1.12, opacity: 1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.95 }}
             // transition={{ delay: 1 }}
           >
-            <img src={image.url} alt={image.name} className="min-w-full min-h-full shadow-lg rounded" loading="lazy" />
+            <img src={image.url} alt={image.name} className="min-w-full min-h-full shadow-xl rounded" loading="lazy" />
           </motion.button>
         ))
       ) : (

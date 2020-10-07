@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import swal from '@sweetalert/with-react';
 import useFirestore from '../hooks/useFirestore';
 import { ImageInterface } from '../utils/interface';
+import Loader from './loader';
 
 const ImageGrid = () => {
   const { docs }: { docs: ImageInterface[] } = useFirestore('images');
@@ -34,7 +35,7 @@ const ImageGrid = () => {
             onClick={(): void => showImage(image)}
             style={{ opacity: 0.95 }}
             className="focus:outline-none py-2 md:py-0 px-5 sm:px-2 md:px-1"
-            whileHover={{ scale: 1.12, opacity: 1 }}
+            whileHover={{ scale: 1.1, opacity: 1 }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.95 }}
             // transition={{ delay: 1 }}
@@ -43,9 +44,7 @@ const ImageGrid = () => {
           </motion.button>
         ))
       ) : (
-        <p className="w-full text-center text-red-200 font-medium text-sm">
-          loading...
-        </p>
+        <Loader />
       )}
     </div>
   );

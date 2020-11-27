@@ -1,10 +1,11 @@
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useEffect, Suspense } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
+import useUpdateLogger from './hooks/useUpdateLogger';
 // import Loader from './components/loader';
 
 const Title = React.lazy(() => import('./components/title'));
 const UploadForm = React.lazy(() => import('./components/UploadForm'));
 const ImageGrid = React.lazy(() => import('./components/imageGrid'));
-
 const Loader = () => (
   <div className="w-full h-screen flex items-center justify-center">
     <div
@@ -15,17 +16,19 @@ const Loader = () => (
 );
 
 const App = () => {
-  const [darkMode, setDarkMode] = useState(Boolean(localStorage.getItem('darkMode')));
+
+  const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
   useEffect(() => {
     const metaColor: any = document.querySelector('meta[name="theme-color"]');
     if (darkMode) {
-      localStorage.setItem('darkMode', 'true');
       metaColor.setAttribute('content', '#4a5568');
     } else {
-      localStorage.removeItem('darkMode');
       metaColor.setAttribute('content', '#FB5C00');
     }
   }, [darkMode]);
+
+  useUpdateLogger(darkMode, console.info);
+
   return (
     <div className={`${darkMode ? 'scheme-dark' : ''}`}>
       <div className="text-white bg-white dark:bg-gray-800 dark:hover:text-red-60 min-h-screen transition duration-500 ease-in">
@@ -37,6 +40,7 @@ const App = () => {
       </div>
     </div>
   );
+
 };
 
 export default App;

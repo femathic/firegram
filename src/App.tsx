@@ -1,7 +1,6 @@
-import React, { useEffect, Suspense } from 'react';
+import React, { Suspense } from 'react';
 import useLocalStorage from './hooks/useLocalStorage';
 import useUpdateLogger from './hooks/useUpdateLogger';
-// import Loader from './components/loader';
 
 const Title = React.lazy(() => import('./components/title'));
 const UploadForm = React.lazy(() => import('./components/UploadForm'));
@@ -16,19 +15,8 @@ const Loader = () => (
 );
 
 const App = () => {
-
   const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
-  useEffect(() => {
-    const metaColor: any = document.querySelector('meta[name="theme-color"]');
-    if (darkMode) {
-      metaColor.setAttribute('content', '#4a5568');
-    } else {
-      metaColor.setAttribute('content', '#FB5C00');
-    }
-  }, [darkMode]);
-
-  useUpdateLogger(darkMode, console.info);
-
+  useUpdateLogger(darkMode);
   return (
     <div className={`${darkMode ? 'scheme-dark' : ''}`}>
       <div className="text-white bg-white dark:bg-gray-800 dark:hover:text-red-60 min-h-screen transition duration-500 ease-in">
@@ -40,7 +28,6 @@ const App = () => {
       </div>
     </div>
   );
-
 };
 
 export default App;

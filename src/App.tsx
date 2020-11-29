@@ -4,7 +4,7 @@ import useUpdateLogger from './hooks/useUpdateLogger';
 
 const Title = React.lazy(() => import('./components/title'));
 const UploadForm = React.lazy(() => import('./components/UploadForm'));
-const ImageGrid = React.lazy(() => import('./components/imageGrid'));
+const ImageGrid = React.lazy(() => import('./components/ImageGrid'));
 const Loader = () => (
   <div className="w-full h-screen flex items-center justify-center">
     <div

@@ -4,11 +4,11 @@
   "scope": "/",
   "description": "All your memorable pictures in one place. Save pictures! Make memories!",
   "icons": [
-    // {
-    //   "src": "favicon.ico",
-    //   "sizes": "256x256",
-    //   "type": "image/x-icon"
-    // },
+    {
+      "src": "favicon.ico",
+      "sizes": "256x256",
+      "type": "image/x-icon"
+    },
     {
       "src": "logo192.png",
       "type": "image/png",

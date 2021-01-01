@@ -1,6 +1,10 @@
 import { useState, useEffect } from 'react';
 import { projectFirestore } from '../firebase/config';
 
+// import firebase from 'firebase/app';
+// import 'firebase/auth'; // This line is important
+// const googleProvider = new firebase.auth.GoogleAuthProvider();
+
 const useFirestore = (collection) => {
   const [docs, setDocs] = useState([]);
 

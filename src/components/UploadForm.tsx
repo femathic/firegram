@@ -8,7 +8,7 @@ const UploadForm = () => {
   const [croppedFile, setCroppedFile] = useState<object | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [imageInputKey, setImageInputKey] = useState<number>(0);
-  const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg'];
+  const allowedImageTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/webp'];
 
   useEffect(() => {
     const closeCrop = () => {
@@ -28,9 +28,9 @@ const UploadForm = () => {
   }, [file, imageInputKey]);
 
   const chooseImage = (e: React.SyntheticEvent<EventTarget>): void => {
-    const selected: any = (e.target as HTMLFormElement).files[0];
-    if (selected && allowedImageTypes.includes(selected.type)) {
-      setFile(selected);
+    const image: any = (e.target as HTMLFormElement).files[0];
+    if (image && allowedImageTypes.includes(image.type)) {
+      setFile(image);
       setError(null);
     } else {
       setError('Please select a valid image file (png or jpeg)');
@@ -42,8 +42,8 @@ const UploadForm = () => {
     <form className="max-w-screen-lg mx-auto">
       <div className="flex justify-center">
         <label htmlFor="upload" className="inline cursor-pointer">
-          <i className="fas fa-plus-circle text-red-500 fa-lg my-3" />
-          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" />
+          <i className="fas fa-plus-circle text-red-700 dark:text-gray-500 fa-lg my-3 hover:opacity-75" />
+          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" aria-hidden="true" />
         </label>
       </div>
       <div>

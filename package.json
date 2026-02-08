@@ -13,7 +13,7 @@
     "@types/react-dom": "^16.9.8",
     "firebase": "^7.21.0",
     "framer-motion": "^2.7.5",
-    "node-sass": "^4.14.1",
+    "sass": "^1.32.0",
     "postcss-selector-parser": "^6.0.4",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
@@ -24,8 +24,8 @@
   },
   "scripts": {
     "build:style": "postcss src/styles/index.css -o src/styles/tailwind.css",
-    "start": "npm run build:style && react-scripts start",
-    "build": "npm run build:style && react-scripts build",
+    "start": "npm run build:style && NODE_OPTIONS=--openssl-legacy-provider react-scripts start",
+    "build": "npm run build:style && NODE_OPTIONS=--openssl-legacy-provider react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -54,6 +54,7 @@
     "eslint-plugin-jsx-a11y": "^6.3.1",
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
+    "postcss": "^8.4.0",
     "postcss-cli": "^8.0.0",
     "tailwindcss": "^1.8.10"
   }

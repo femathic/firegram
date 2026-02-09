@@ -44,7 +44,7 @@ const ImageGrid = () => {
               swal.close();
             }}
             style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
-            className="absolute top-4 right-4 p-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
+            className="absolute top-4 right-4 px-3 py-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
             aria-label="Close"
           >
             <i className="fas fa-times" aria-hidden="true" />
@@ -56,7 +56,7 @@ const ImageGrid = () => {
               downloadImage(image);
             }}
             style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
-            className="absolute bottom-4 right-4 p-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
+            className="absolute bottom-4 right-4 px-3 py-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
             aria-label="Download"
           >
             <i className="fas fa-download" aria-hidden="true" />
@@ -109,7 +109,7 @@ const ImageGrid = () => {
                 type="button"
                 onClick={(e): void => { deleteImage(e, image); }}
                 style={{ backgroundColor: 'rgba(0,0,0,0.3)' }}
-                className="absolute bottom-4 right-4 p-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
+                className="absolute bottom-2 right-2 px-3 py-2 rounded-full text-white shadow-lg focus:outline-none focus:ring-2 focus:ring-white/50 hover:bg-black/70"
                 aria-label="Delete image"
               >
                 <i className="fas fa-trash-alt drop-shadow-lg" aria-hidden="true" />

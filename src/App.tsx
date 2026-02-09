@@ -18,7 +18,7 @@ const App = () => {
   const [darkMode, setDarkMode] = useLocalStorage('darkMode', false);
   useUpdateLogger(darkMode);
   return (
-    <div className={`${darkMode ? 'scheme-dark' : ''}`}>
+    <div className={darkMode ? 'dark' : ''}>
       <div className="text-white bg-white dark:bg-gray-800 dark:hover:text-red-60 min-h-screen transition duration-500 ease-in">
         <Suspense fallback={<Loader />}>
           <Title darkMode={darkMode} setDarkMode={setDarkMode} />

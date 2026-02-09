@@ -20,7 +20,7 @@ const Title = ({ darkMode, setDarkMode }: { darkMode: boolean, setDarkMode: Func
           <input
             type="checkbox"
             id="toggle"
-            className="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer hidden"
+            className="toggle-checkbox absolute w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer hidden"
             onChange={() => setDarkMode(!darkMode)}
           />
         </label>

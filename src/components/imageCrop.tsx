@@ -39,7 +39,7 @@ const ImageCrop = (props: any) => {
   };
 
   const getCroppedImageFile = async () => {
-    const croppedImageBase64 = await imageBlobToBase64(croppedImageUrl);
+    const croppedImageBase64 = await imageBlobToBase64(croppedImageUrl as any);
     // file to upload
     const croppedImageFile = base64StringToFile(croppedImageBase64, `${Date.now()}.jpg`);
     setCroppedFile(croppedImageFile);
@@ -51,9 +51,17 @@ const ImageCrop = (props: any) => {
   return (
     <div className="py-4 text-left px-4">
       <div className="flex justify-between items-center pb-3">
-        <p className="text-lg text-center font-medium text-red-400 border-b-2 border-gray-300">Crop your image</p>
-        <button type="button" className="cursor-pointer focus:outline-none z-50" onClick={() => closeCrop()}>
-          <i className="fas fa-times" />
+        <p className="text-lg text-center font-medium text-red-400 border-b-2 border-gray-300" id="crop-modal-title">
+          Crop your image
+        </p>
+        <button
+          type="button"
+          className="cursor-pointer focus:outline-none z-50"
+          aria-label="Close crop dialog"
+          aria-labelledby="crop-modal-title"
+          onClick={() => closeCrop()}
+        >
+          <i className="fas fa-times" aria-hidden="true" />
         </button>
       </div>
       <div className="flex justify-center m-0 md:m-8 h-10/12 lg:h-5/12">
@@ -68,7 +76,7 @@ const ImageCrop = (props: any) => {
         />
         )}
         {croppedImageUrl && (
-        <img alt="Crop" className="mw-100 hidden" src={window.URL.createObjectURL(croppedImageUrl)} />
+        <img alt="Crop" className="mw-100 hidden" src={window.URL.createObjectURL(croppedImageUrl as any)} />
         )}
       </div>
       <div className="flex justify-center text-white pt-2">

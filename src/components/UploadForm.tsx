@@ -42,8 +42,17 @@ const UploadForm = () => {
     <form className="max-w-screen-lg mx-auto">
       <div className="flex justify-center">
         <label htmlFor="upload" className="inline cursor-pointer">
-          <i className="fas fa-plus-circle text-red-700 dark:text-gray-500 fa-lg my-3 hover:opacity-75" />
-          <input key={imageInputKey} id="upload" type="file" accept=".jpeg, .png, .jpg" onChange={chooseImage} className="hidden" aria-hidden="true" />
+          <span className="sr-only">Upload Image</span>
+          <i className="fas fa-plus-circle text-red-700 dark:text-gray-500 fa-lg my-3 hover:opacity-75" aria-hidden="true" />
+          <input
+            key={imageInputKey}
+            id="upload"
+            type="file"
+            accept=".jpeg, .png, .jpg"
+            onChange={chooseImage}
+            className="hidden"
+            aria-hidden="true"
+          />
         </label>
       </div>
       <div>

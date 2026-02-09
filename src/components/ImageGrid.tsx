@@ -13,7 +13,8 @@ const ImageGrid = () => {
 
   const downloadImage = async (img: ImageInterface) => {
     try {
-      const res = await fetch(img.url);
+      const res = await fetch(img.url, { mode: 'cors' });
+      if (!res.ok) throw new Error('Fetch failed');
       const blob = await res.blob();
       const a = document.createElement('a');
       a.href = URL.createObjectURL(blob);
@@ -21,7 +22,17 @@ const ImageGrid = () => {
       a.click();
       URL.revokeObjectURL(a.href);
     } catch {
-      window.open(img.url, '_blank');
+      const a = document.createElement('a');
+      a.href = img.url;
+      a.download = img.name || 'image';
+      a.rel = 'noopener noreferrer';
+      a.target = '_blank';
+      a.click();
+      swal({
+        title: 'Opened in new tab',
+        text: 'Right-click  or press and hold the image and choose "Save image as..." to download.',
+        icon: 'info',
+      });
     }
   };
 
